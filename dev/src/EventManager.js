@@ -15,8 +15,4 @@ export default class EventManager {
     unsubscribe(eventId, cb) {
         eventEmitter.removeListener(eventId, cb);
     }
-
-    getListeners(eventId) {
-        eventEmitter.getListeners(eventId);
-    }
 }
