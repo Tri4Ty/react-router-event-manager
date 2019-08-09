@@ -1,14 +1,10 @@
-/* eslint no-console: "off" */
-
 import React, { Component } from 'react';
 import { Route, HashRouter as Router } from "react-router-dom";
 
-import EventManager from './EventManager';
+import {subscribe, trigger} from './EventManager';
 import ReactRouterEventManager from '../../src/ReactRouterEventManager';
 
 class ReactRouterEventManagerTest extends Component {
-    eventManager = new EventManager();
-
     constructor(props) {
         super(props);
         this.onChangeTargetRoute = this.onChangeTargetRoute.bind(this);
@@ -17,13 +13,11 @@ class ReactRouterEventManagerTest extends Component {
         this.onChangeServiceType = this.onChangeServiceType.bind(this);
         this.onChangeResourceType = this.onChangeResourceType.bind(this);
         this.onChangeOperationType = this.onChangeOperationType.bind(this);
-        this.onDisableSearch = this.onDisableSearch.bind(this);
 
         this.state = {
             base: undefined,
             entityTypes: [],
             searchText: undefined,
-            disableSearch: false,
             filterText: undefined
         }
     }
@@ -50,7 +44,7 @@ class ReactRouterEventManagerTest extends Component {
             }
         };
 
-       this.eventManager.trigger("ROUTE_CHANGE_EVENT", eventObj);
+       trigger("ROUTE_CHANGE_EVENT", eventObj);
     }
 
     updateRoute() {
@@ -68,9 +62,7 @@ class ReactRouterEventManagerTest extends Component {
             params.push({entityTypes: entityTypeString});
         }
 
-        if (this.state.disableSearch) {
-            params.push({searchId: undefined})
-        } else if (this.state.searchText) {
+        if (this.state.searchText) {
             params.push({searchId: this.state.searchText})
         }
 
@@ -82,7 +74,7 @@ class ReactRouterEventManagerTest extends Component {
             params: params
         };
         
-        this.eventManager.trigger("ROUTE_UPDATE_EVENT", eventObj);
+        trigger("ROUTE_UPDATE_EVENT", eventObj);
     }
 
     onChangeTargetRoute(event) {
@@ -174,12 +166,6 @@ class ReactRouterEventManagerTest extends Component {
             });
         }
     }
-
-    onDisableSearch(event) {
-        this.setState({
-            disableSearch: event.target.checked
-        });
-    }
  
     buildRouteComponents() {
         let routes = [];
@@ -213,7 +199,7 @@ class ReactRouterEventManagerTest extends Component {
 
         return (
             <Router>
-                <ReactRouterEventManager subscribe={ this.eventManager.subscribe } />
+                <ReactRouterEventManager subscribe={ subscribe } />
                 <Route
                     key="landingPage"
                     path="/"
@@ -235,7 +221,6 @@ class ReactRouterEventManagerTest extends Component {
                             <br /><br />
                             
                             <label>Search String:</label> <input type="text" key='searchInput' value={this.state.searchText} onChange={ this.onChangeSearch } />&nbsp;
-                            <input type="checkbox" key='disableSearch' name="disableSerach" value="disableSearch" checked={this.state.disableSearch} onChange={this.onDisableSearch} />Disable
 
                             <br /><br />
                             

@@ -1,5 +1,3 @@
-/* eslint no-console: "off" */
-
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -24,7 +22,7 @@ function buildFullRoute(base, params) {
 function replaceParam(param, route) {
     let keys = Object.keys(param);
     let paramId = keys[0];
-    let newParamValue = param[paramId] ? `${paramId}=${param[paramId]}` : '';
+    let newParamValue = `${paramId}=${param[paramId]}`;
     let paramStartIndex = route.indexOf(paramId);
 
     if (paramStartIndex > -1) {
@@ -37,19 +35,9 @@ function replaceParam(param, route) {
             existingParamValue = route.substring(paramStartIndex);
         }        
 
-        if (newParamValue === '' &&  paramEndIndex > -1) {
-            // we are removing the parameter, need to also remove the trailing '/'
-            existingParamValue = existingParamValue.concat('/');
-        }
-
         route = route.replace(existingParamValue, newParamValue);
-    } else if (newParamValue !== '') {
+    } else {
         route = `${route}/${newParamValue}`;
-    }
-
-    if (route.charAt(route.length - 1) === '/') {
-        // trim trailing '/'
-        route = route.slice(0, -1);
     }
     
     return route;
