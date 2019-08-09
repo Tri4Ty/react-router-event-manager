@@ -1,7 +1,7 @@
-# Configurable Form Builder
+# React Router Event Manager
 
 ## Overview
-The Configurable Form Builder allows the creation of a React based forms via a JSON configuration file.
+Manager component for handling event driven changes to react router routes. This decouples lower level components from having to know their containing application is leveraging react-router-dom for route management. Instead of applicaiton components directly modifying the router history attribute (```history.push()```), components instead trigger ROUTE_CHANGE_EVENT or ROUTE_UPDATE_EVENT (which this manger subscribes to) and the manager handles modification of the route.
 
 ## Installation
 Run the following NPM command to install:
